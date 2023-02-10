@@ -17,7 +17,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final colour = Color.fromARGB(171, 0, 0, 0);
+  //slider value
+  double rating = 20;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +39,9 @@ class _MyAppState extends State<MyApp> {
               children: [
                 GestureDetector(
                   onTap: () => {
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => show())),
-                    // Colors.white,
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => show())),
+                    Colors.white,
                   },
                   child: card(
                     childpro: Column(
@@ -78,15 +80,31 @@ class _MyAppState extends State<MyApp> {
             ),
             SizedBox(height: 1.0),
             Container(
+              child: Slider(
+                value: rating,
+                onChanged: (double value) {
+                  setState(() => rating = value);
+                  print(value);
+                },
+
+                max: 100,
+                label: rating.round().toString(),
+
+                // activeColor: Colors.red,
+                // inactiveColor: Colors.yellow,
+                thumbColor: Colors.white,
+                mouseCursor: MouseCursor.defer,
+              ),
               width: 340.0,
               height: 120.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: Color.fromARGB(171, 2, 31, 91),
+                color: Colors.white,
+                // color: Color.fromARGB(255, 14, 42, 132),
                 boxShadow: [
                   BoxShadow(
-                    color: Color.fromARGB(255, 21, 45, 121),
-                    offset: Offset(0.5, 0.5),
+                    color: Color.fromARGB(255, 12, 62, 228),
+                    offset: Offset(0.4, 0.2),
                     blurRadius: 5.0,
                     spreadRadius: 4.0,
                     blurStyle: BlurStyle.normal,
@@ -101,12 +119,27 @@ class _MyAppState extends State<MyApp> {
               children: [
                 card(
                   childpro: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Weight"),
-                      Row(children: [
-                        Icon(Icons.add_circle),
-                        Icon(Icons.remove_circle)
-                      ]),
+                      Text(
+                        "Weight",
+                        style: TextStyle(color: Colors.white, fontSize: 20.0),
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.add_circle,
+                                  color: Colors.white,
+                                  size: 30.0,
+                                )),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.remove_circle,
+                                    color: Colors.white, size: 30.0))
+                          ]),
                     ],
                   ),
                 ),
@@ -119,7 +152,7 @@ class _MyAppState extends State<MyApp> {
             Container(
               child: Center(
                 child: Text(
-                  "CALCULATEs  BMI",
+                  "CALCULATE BMI",
                   selectionColor: Colors.white,
                   style: TextStyle(
                     color: Colors.white,
@@ -151,12 +184,10 @@ class _MyAppState extends State<MyApp> {
 
 class card extends StatefulWidget {
   // creating constructor
-  card({this.childpro, this.colour});
-
-  final colour;
+  card({this.childpro});
 
   final childpro;
-
+  double _rating = 20;
   @override
   State<card> createState() => _cardState();
 }
@@ -171,11 +202,11 @@ class _cardState extends State<card> {
       width: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: widget.colour,
+        color: Color.fromARGB(255, 14, 42, 132),
         boxShadow: [
           BoxShadow(
             color: Color.fromARGB(255, 12, 62, 228),
-            offset: Offset(0.5, 0.5),
+            offset: Offset(0.4, 0.2),
             blurRadius: 5.0,
             spreadRadius: 4.0,
             blurStyle: BlurStyle.normal,

@@ -10,6 +10,6 @@ class show extends StatefulWidget {
 class _showState extends State<show> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(color: Colors.white);
   }
 }
