@@ -10,6 +10,9 @@ class show extends StatefulWidget {
 class _showState extends State<show> {
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.white);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(children: [Text("YOUR RESULT")]),
+    );
   }
 }

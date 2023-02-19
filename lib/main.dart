@@ -4,6 +4,13 @@ import 'show.dart';
 
 void main() {
   runApp(MaterialApp(
+    theme:
+        //slider _ ku changing the properties of slider
+        ThemeData(
+            sliderTheme: SliderThemeData(
+      // tickMarkShape: ,
+      showValueIndicator: ShowValueIndicator.always,
+    )),
     home: MyApp(),
     debugShowCheckedModeBanner: false,
   ));
@@ -19,6 +26,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   //slider value
   double rating = 20;
+  double hello = 0;
+  var weight = 0;
+  var height = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +48,14 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                  onTap: () => {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => show())),
-                    Colors.white,
-                  },
+                  onTap: () => {},
+
+                  // onTap: () => {
+
+                  //   Navigator.push(context,
+                  //       MaterialPageRoute(builder: (context) => show())),
+                  //   Colors.white,
+                  // },
                   child: card(
                     childpro: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -78,22 +91,37 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-            SizedBox(height: 1.0),
+            SizedBox(height: 3.0),
             Container(
-              child: Slider(
-                value: rating,
-                onChanged: (double value) {
-                  setState(() => rating = value);
-                  print(value);
-                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "$hello",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  Slider(
+                    divisions: 100,
+                    value: rating,
+                    label: rating.round().toString(),
 
-                max: 100,
-                label: rating.round().toString(),
+                    onChanged: (double value) {
+                      setState(() => rating = value);
+                      hello = value;
+                    },
+                    // semanticFormatterCallback: (double Value) {
+                    //   return '${Value.round()} rating';
+                    // },
+                    max: 100,
 
-                // activeColor: Colors.red,
-                // inactiveColor: Colors.yellow,
-                thumbColor: Colors.white,
-                mouseCursor: MouseCursor.defer,
+                    // activeColor: Colors.red,
+                    // inactiveColor: Colors.yellow,
+                    thumbColor: Colors.white,
+                    mouseCursor: MouseCursor.defer,
+                  ),
+                ],
               ),
               width: 340.0,
               height: 120.0,
@@ -113,7 +141,7 @@ class _MyAppState extends State<MyApp> {
                 ],
               ),
             ),
-            SizedBox(height: 1.0),
+            SizedBox(height: 2.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -121,29 +149,97 @@ class _MyAppState extends State<MyApp> {
                   childpro: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(
-                        "Weight",
-                        style: TextStyle(color: Colors.white, fontSize: 20.0),
+                      Column(
+                        children: [
+                          Text(
+                            "Weight",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20.0),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            "$weight",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20.0),
+                          )
+                        ],
                       ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    weight += 1;
+                                  });
+                                },
                                 icon: Icon(
                                   Icons.add_circle,
                                   color: Colors.white,
                                   size: 30.0,
                                 )),
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    weight -= 1;
+                                  });
+                                },
                                 icon: Icon(Icons.remove_circle,
                                     color: Colors.white, size: 30.0))
                           ]),
                     ],
                   ),
                 ),
-                card()
+                card(
+                  childpro: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "Height",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20.0),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            "$height",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20.0),
+                          )
+                        ],
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    height += 1;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.add_circle,
+                                  color: Colors.white,
+                                  size: 30.0,
+                                )),
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    height -= 1;
+                                  });
+                                },
+                                icon: Icon(Icons.remove_circle,
+                                    color: Colors.white, size: 30.0))
+                          ]),
+                    ],
+                  ),
+                ),
               ],
             ),
             SizedBox(
@@ -184,8 +280,9 @@ class _MyAppState extends State<MyApp> {
 
 class card extends StatefulWidget {
   // creating constructor
-  card({this.childpro});
+  card({this.childpro, this.kar});
 
+  final kar;
   final childpro;
   double _rating = 20;
   @override
@@ -202,11 +299,11 @@ class _cardState extends State<card> {
       width: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Color.fromARGB(255, 14, 42, 132),
+        color: Colors.kar = "blue",
+        // fromARGB(255, 14, 42, 132),
         boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(255, 12, 62, 228),
-            offset: Offset(0.4, 0.2),
+            // color: Color.offset: Offset(0.4, 0.2),
             blurRadius: 5.0,
             spreadRadius: 4.0,
             blurStyle: BlurStyle.normal,
