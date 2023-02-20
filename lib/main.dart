@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'show.dart';
 
+const inactivecardColor = Color.fromARGB(255, 14, 42, 132);
+const activecardColor = Color.fromARGB(255, 59, 99, 216);
 void main() {
   runApp(MaterialApp(
     theme:
@@ -25,10 +26,35 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   //slider value
-  double rating = 20;
-  double hello = 0;
+  double rating = 0;
+  var hello = 0;
   var weight = 0;
-  var height = 0;
+  // var height = 0;
+  var age = 0;
+  bool enabled = false;
+
+  Color malecardColor = inactivecardColor;
+  Color femalecardColor = inactivecardColor;
+
+  //method takes input as gender to check whether m/f
+  void updateColor(int gender) {
+    if (gender == 1) {
+      if (malecardColor == inactivecardColor) {
+        malecardColor = activecardColor;
+        femalecardColor = inactivecardColor;
+      } else {
+        malecardColor = activecardColor;
+        femalecardColor = inactivecardColor;
+      }
+    } else if (gender == 2) {
+      if (femalecardColor == inactivecardColor) {
+        femalecardColor = activecardColor;
+        malecardColor = inactivecardColor;
+      } else {
+        femalecardColor = inactivecardColor;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +74,14 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                  onTap: () => {},
-
-                  // onTap: () => {
-
-                  //   Navigator.push(context,
-                  //       MaterialPageRoute(builder: (context) => show())),
-                  //   Colors.white,
-                  // },
+                  onTap: () {
+                    setState(() {
+                      updateColor(1); //indicates male
+                      // activecolor = Color.fromARGB(255, 134, 255, 82);
+                    });
+                  },
                   child: card(
+                    colour: malecardColor,
                     childpro: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -73,20 +98,28 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                 ),
-                card(
-                  childpro: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.female,
-                        color: Colors.white,
-                        size: 90,
-                      ),
-                      Text(
-                        "Female",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      updateColor(2); //indicates female
+                    });
+                  },
+                  child: card(
+                    colour: femalecardColor,
+                    childpro: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(
+                          Icons.female,
+                          color: Colors.white,
+                          size: 90,
+                        ),
+                        Text(
+                          "Female",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -96,11 +129,37 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  SizedBox(
+                    height: 2.0,
+                  ),
                   Text(
-                    "$hello",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
+                    "Height",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "$hello",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: Text(
+                              "cm",
+                              style: TextStyle(fontSize: 14.0),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                   Slider(
                     divisions: 100,
@@ -109,12 +168,12 @@ class _MyAppState extends State<MyApp> {
 
                     onChanged: (double value) {
                       setState(() => rating = value);
-                      hello = value;
+                      hello = value.round();
                     },
                     // semanticFormatterCallback: (double Value) {
                     //   return '${Value.round()} rating';
                     // },
-                    max: 100,
+                    max: 1000,
 
                     // activeColor: Colors.red,
                     // inactiveColor: Colors.yellow,
@@ -146,6 +205,7 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 card(
+                  colour: Color.fromARGB(255, 14, 42, 132),
                   childpro: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -184,6 +244,9 @@ class _MyAppState extends State<MyApp> {
                                 onPressed: () {
                                   setState(() {
                                     weight -= 1;
+                                    if (weight < 1) {
+                                      weight = 0;
+                                    }
                                   });
                                 },
                                 icon: Icon(Icons.remove_circle,
@@ -193,6 +256,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
                 card(
+                  colour: Color.fromARGB(255, 14, 42, 132),
                   childpro: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -200,7 +264,7 @@ class _MyAppState extends State<MyApp> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            "Height",
+                            "Age",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 20.0),
                           ),
@@ -208,7 +272,7 @@ class _MyAppState extends State<MyApp> {
                             height: 10.0,
                           ),
                           Text(
-                            "$height",
+                            "$age",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 20.0),
                           )
@@ -220,7 +284,7 @@ class _MyAppState extends State<MyApp> {
                             IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    height += 1;
+                                    age += 1;
                                   });
                                 },
                                 icon: Icon(
@@ -231,7 +295,10 @@ class _MyAppState extends State<MyApp> {
                             IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    height -= 1;
+                                    age -= 1;
+                                    if (age < 1) {
+                                      age = 0;
+                                    }
                                   });
                                 },
                                 icon: Icon(Icons.remove_circle,
@@ -245,32 +312,41 @@ class _MyAppState extends State<MyApp> {
             SizedBox(
               height: 4.0,
             ),
-            Container(
-              child: Center(
-                child: Text(
-                  "CALCULATE BMI",
-                  selectionColor: Colors.white,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 21,
+            GestureDetector(
+              onTap: () => {
+                //method calling
+
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => show())),
+                Colors.white,
+              },
+              child: Container(
+                child: Center(
+                  child: Text(
+                    "CALCULATE BMI",
+                    selectionColor: Colors.white,
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 21,
+                    ),
                   ),
                 ),
-              ),
-              width: 290.0,
-              height: 50.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Color.fromARGB(171, 2, 31, 91),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 21, 45, 121),
-                    offset: Offset(0.5, 0.5),
-                    blurRadius: 10.0,
-                    spreadRadius: 4.0,
-                    blurStyle: BlurStyle.normal,
-                  ),
-                  BoxShadow(color: Color.fromARGB(171, 2, 31, 91))
-                ],
+                width: 290.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Color.fromARGB(171, 2, 31, 91),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 21, 45, 121),
+                      offset: Offset(0.5, 0.5),
+                      blurRadius: 10.0,
+                      spreadRadius: 4.0,
+                      blurStyle: BlurStyle.normal,
+                    ),
+                    BoxShadow(color: Color.fromARGB(171, 2, 31, 91))
+                  ],
+                ),
               ),
             ),
           ],
@@ -278,32 +354,26 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class card extends StatefulWidget {
+class card extends StatelessWidget {
   // creating constructor
-  card({this.childpro, this.kar});
+  card({this.childpro, required this.colour});
 
-  final kar;
+  final Color colour;
   final childpro;
   double _rating = 20;
-  @override
-  State<card> createState() => _cardState();
-}
 
-class _cardState extends State<card> {
-  // const card({
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: widget.childpro,
+      child: childpro,
       height: 200,
       width: 150,
       decoration: BoxDecoration(
+        color: colour,
         borderRadius: BorderRadius.circular(15),
-        color: Colors.kar = "blue",
-        // fromARGB(255, 14, 42, 132),
         boxShadow: [
           BoxShadow(
-            // color: Color.offset: Offset(0.4, 0.2),
+            offset: Offset(2.0, 2.0),
             blurRadius: 5.0,
             spreadRadius: 4.0,
             blurStyle: BlurStyle.normal,
