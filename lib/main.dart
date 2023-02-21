@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'show.dart';
 
 const inactivecardColor = Color.fromARGB(255, 14, 42, 132);
@@ -8,11 +9,11 @@ void main() {
     theme:
         //slider _ ku changing the properties of slider
         ThemeData(
-            sliderTheme: SliderThemeData(
+            sliderTheme: const SliderThemeData(
       // tickMarkShape: ,
       showValueIndicator: ShowValueIndicator.always,
     )),
-    home: MyApp(),
+    home: const MyApp(),
     debugShowCheckedModeBanner: false,
   ));
 }
@@ -27,14 +28,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   //slider value
   double rating = 0;
-  var hello = 0;
-  var weight = 0;
-  // var height = 0;
+  late var hello = 0; //height
+  late var _weight = 0; //weight
   var age = 0;
   bool enabled = false;
 
   Color malecardColor = inactivecardColor;
   Color femalecardColor = inactivecardColor;
+
+  calculator calc = calculator(height: 57, weight: 78);
 
   //method takes input as gender to check whether m/f
   void updateColor(int gender) {
@@ -59,11 +61,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 16, 17, 63),
+        backgroundColor: const Color.fromARGB(255, 16, 17, 63),
         appBar: AppBar(
-          title: Text("BMI CALCULATOR"),
+          title: const Text("BMI CALCULATOR"),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(243, 12, 10, 53),
+          backgroundColor: const Color.fromARGB(243, 12, 10, 53),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         ),
@@ -84,7 +86,7 @@ class _MyAppState extends State<MyApp> {
                     colour: malecardColor,
                     childpro: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.male,
                           color: Colors.white,
@@ -108,7 +110,7 @@ class _MyAppState extends State<MyApp> {
                     colour: femalecardColor,
                     childpro: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.female,
                           color: Colors.white,
@@ -124,15 +126,32 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-            SizedBox(height: 3.0),
+            const SizedBox(height: 3.0),
             Container(
+              width: 340.0,
+              height: 120.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                // color: Color.fromARGB(255, 14, 42, 132),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 12, 62, 228),
+                    offset: Offset(0.4, 0.2),
+                    blurRadius: 5.0,
+                    spreadRadius: 4.0,
+                    blurStyle: BlurStyle.normal,
+                  ),
+                  BoxShadow(color: Color.fromARGB(171, 17, 27, 47))
+                ],
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 2.0,
                   ),
-                  Text(
+                  const Text(
                     "Height",
                     style: TextStyle(fontSize: 20.0),
                   ),
@@ -141,12 +160,12 @@ class _MyAppState extends State<MyApp> {
                     children: [
                       Text(
                         "$hello",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                         ),
                       ),
                       Column(
-                        children: [
+                        children: const [
                           SizedBox(
                             height: 5.0,
                           ),
@@ -177,52 +196,35 @@ class _MyAppState extends State<MyApp> {
 
                     // activeColor: Colors.red,
                     // inactiveColor: Colors.yellow,
-                    thumbColor: Colors.white,
+                    thumbColor: Color.fromARGB(255, 21, 45, 121),
                     mouseCursor: MouseCursor.defer,
                   ),
                 ],
               ),
-              width: 340.0,
-              height: 120.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                // color: Color.fromARGB(255, 14, 42, 132),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 12, 62, 228),
-                    offset: Offset(0.4, 0.2),
-                    blurRadius: 5.0,
-                    spreadRadius: 4.0,
-                    blurStyle: BlurStyle.normal,
-                  ),
-                  BoxShadow(color: Color.fromARGB(171, 17, 27, 47))
-                ],
-              ),
             ),
-            SizedBox(height: 2.0),
+            const SizedBox(height: 2.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 card(
-                  colour: Color.fromARGB(255, 14, 42, 132),
+                  colour: const Color.fromARGB(255, 14, 42, 132),
                   childpro: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                         children: [
-                          Text(
+                          const Text(
                             "Weight",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 20.0),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10.0,
                           ),
                           Text(
-                            "$weight",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 20.0),
+                            "$_weight",
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20.0),
                           )
                         ],
                       ),
@@ -232,10 +234,10 @@ class _MyAppState extends State<MyApp> {
                             IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    weight += 1;
+                                    _weight += 1;
                                   });
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.add_circle,
                                   color: Colors.white,
                                   size: 30.0,
@@ -243,38 +245,38 @@ class _MyAppState extends State<MyApp> {
                             IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    weight -= 1;
-                                    if (weight < 1) {
-                                      weight = 0;
+                                    _weight -= 1;
+                                    if (_weight < 1) {
+                                      _weight = 0;
                                     }
                                   });
                                 },
-                                icon: Icon(Icons.remove_circle,
+                                icon: const Icon(Icons.remove_circle,
                                     color: Colors.white, size: 30.0))
                           ]),
                     ],
                   ),
                 ),
                 card(
-                  colour: Color.fromARGB(255, 14, 42, 132),
+                  colour: const Color.fromARGB(255, 14, 42, 132),
                   childpro: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text(
+                          const Text(
                             "Age",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 20.0),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10.0,
                           ),
                           Text(
                             "$age",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 20.0),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20.0),
                           )
                         ],
                       ),
@@ -287,7 +289,7 @@ class _MyAppState extends State<MyApp> {
                                     age += 1;
                                   });
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.add_circle,
                                   color: Colors.white,
                                   size: 30.0,
@@ -301,7 +303,7 @@ class _MyAppState extends State<MyApp> {
                                     }
                                   });
                                 },
-                                icon: Icon(Icons.remove_circle,
+                                icon: const Icon(Icons.remove_circle,
                                     color: Colors.white, size: 30.0))
                           ]),
                     ],
@@ -309,34 +311,30 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 4.0,
             ),
             GestureDetector(
               onTap: () => {
-                //method calling
+                // method calling
+                // ignore: unnecessary_new
 
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => show())),
-                Colors.white,
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => show(
+                              bmiresult: calc.calculateBMI(),
+                              result: calc.getresult(),
+                              interpre: calc.interpretation(),
+                            ))),
               },
               child: Container(
-                child: Center(
-                  child: Text(
-                    "CALCULATE BMI",
-                    selectionColor: Colors.white,
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 21,
-                    ),
-                  ),
-                ),
                 width: 290.0,
                 height: 50.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Color.fromARGB(171, 2, 31, 91),
-                  boxShadow: [
+                  color: const Color.fromARGB(171, 2, 31, 91),
+                  boxShadow: const [
                     BoxShadow(
                       color: Color.fromARGB(255, 21, 45, 121),
                       offset: Offset(0.5, 0.5),
@@ -347,6 +345,16 @@ class _MyAppState extends State<MyApp> {
                     BoxShadow(color: Color.fromARGB(171, 2, 31, 91))
                   ],
                 ),
+                child: const Center(
+                  child: Text(
+                    "CALCULATE BMI",
+                    selectionColor: Colors.white,
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 21,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -356,11 +364,11 @@ class _MyAppState extends State<MyApp> {
 
 class card extends StatelessWidget {
   // creating constructor
-  card({this.childpro, required this.colour});
+  const card({this.childpro, required this.colour});
 
   final Color colour;
   final childpro;
-  double _rating = 20;
+  final double _rating = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -371,7 +379,7 @@ class card extends StatelessWidget {
       decoration: BoxDecoration(
         color: colour,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             offset: Offset(2.0, 2.0),
             blurRadius: 5.0,
@@ -382,5 +390,39 @@ class card extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class calculator {
+  double _bmi = 0.0;
+
+  final int height;
+  final int weight;
+  // using late here just read it
+  calculator({required this.height, required this.weight});
+
+  String calculateBMI() {
+    double _bmi = weight / pow(height / 100, 2);
+    return _bmi.toStringAsFixed(1); // how many decimal point -1
+  }
+
+  String getresult() {
+    if (_bmi >= 25) {
+      return "Overright";
+    } else if (_bmi > 18.5) {
+      return "Normal";
+    } else {
+      return "UnderWeight";
+    }
+  }
+
+  String interpretation() {
+    if (_bmi >= 25) {
+      return "hj";
+    } else if (_bmi > 18.5) {
+      return "mhv";
+    } else {
+      return "bj";
+    }
   }
 }
