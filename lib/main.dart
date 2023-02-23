@@ -13,7 +13,7 @@ void main() {
       // tickMarkShape: ,
       showValueIndicator: ShowValueIndicator.always,
     )),
-    home: const MyApp(),
+    home: MyApp(),
     debugShowCheckedModeBanner: false,
   ));
 }
@@ -27,16 +27,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   //slider value
-  double rating = 0;
-  late var hello = 0; //height
-  late var _weight = 0; //weight
-  var age = 0;
+  static double rating = 230;
+  static var hello = 230; //height
+  static var _weight = 50; //weight
+  static var age = 43; //using static for
   bool enabled = false;
 
   Color malecardColor = inactivecardColor;
   Color femalecardColor = inactivecardColor;
 
-  calculator calc = calculator(height: 57, weight: 78);
+  calculator calc = calculator(height: rating.toInt(), weight: _weight);
 
   //method takes input as gender to check whether m/f
   void updateColor(int gender) {
@@ -181,7 +181,7 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   Slider(
-                    divisions: 100,
+                    divisions: 500,
                     value: rating,
                     label: rating.round().toString(),
 
@@ -192,7 +192,7 @@ class _MyAppState extends State<MyApp> {
                     // semanticFormatterCallback: (double Value) {
                     //   return '${Value.round()} rating';
                     // },
-                    max: 1000,
+                    max: 500,
 
                     // activeColor: Colors.red,
                     // inactiveColor: Colors.yellow,
@@ -316,9 +316,8 @@ class _MyAppState extends State<MyApp> {
             ),
             GestureDetector(
               onTap: () => {
-                // method calling
-                // ignore: unnecessary_new
-
+                // calculator,
+                calc = calculator(height: hello, weight: _weight),
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -368,7 +367,6 @@ class card extends StatelessWidget {
 
   final Color colour;
   final childpro;
-  final double _rating = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -408,11 +406,15 @@ class calculator {
 
   String getresult() {
     if (_bmi >= 25) {
-      return "Overright";
-    } else if (_bmi > 18.5) {
+      return "Obese";
+    } else if (_bmi >= 25.0 && _bmi <= 29.9) {
+      return "OverWeight";
+    } else if (_bmi >= 18.5 && _bmi <= 24.9) {
       return "Normal";
-    } else {
+    } else if (_bmi < 18.5) {
       return "UnderWeight";
+    } else {
+      return "";
     }
   }
 
@@ -422,7 +424,7 @@ class calculator {
     } else if (_bmi > 18.5) {
       return "mhv";
     } else {
-      return "bj";
+      return "bsdj";
     }
   }
 }
