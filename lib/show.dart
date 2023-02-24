@@ -24,7 +24,7 @@ class show extends StatelessWidget {
           axes: <RadialAxis>[
             RadialAxis(
                 minimum: 0,
-                maximum: 150,
+                maximum: 70,
                 axisLabelStyle: GaugeTextStyle(
                     color: Colors.white,
                     fontSize: 15,
@@ -34,12 +34,16 @@ class show extends StatelessWidget {
                 ranges: <GaugeRange>[
                   GaugeRange(
                     startValue: 0,
-                    endValue: 50,
+                    endValue: 18.5,
                     color: Colors.green,
                   ),
                   GaugeRange(
-                      startValue: 50, endValue: 100, color: Colors.orange),
-                  GaugeRange(startValue: 100, endValue: 150, color: Colors.red)
+                      startValue: 18.5, endValue: 24.9, color: Colors.orange),
+                  GaugeRange(startValue: 25, endValue: 29.9, color: Colors.red),
+                  GaugeRange(
+                      startValue: 30,
+                      endValue: 70,
+                      color: Color.fromARGB(255, 244, 54, 209))
                 ],
                 pointers: <GaugePointer>[
                   NeedlePointer(
@@ -65,27 +69,34 @@ class show extends StatelessWidget {
                 ])
           ],
         )),
-        Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            bmiresult,
+            "Result : $bmiresult",
             style: TextStyle(
               color: Colors.white,
               fontSize: 40.0,
             ),
           ),
         ]),
-        Text(
-          result,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 40.0,
+        Padding(
+          padding: EdgeInsets.fromLTRB(16, 0, 16, 10),
+          child: Text(
+            "You are in $result range",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28.0,
+            ),
           ),
         ),
-        Text(
-          interpre,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 40.0,
+        Padding(
+          padding: EdgeInsets.fromLTRB(16, 5, 16, 10),
+          child: Text(
+            "$interpre",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontStyle: FontStyle.italic,
+                letterSpacing: 1.0),
           ),
         ),
         GestureDetector(

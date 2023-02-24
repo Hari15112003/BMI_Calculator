@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'show.dart';
+import 'about.dart';
 
 const inactivecardColor = Color.fromARGB(255, 14, 42, 132);
 const activecardColor = Color.fromARGB(255, 59, 99, 216);
@@ -32,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   static var _weight = 50; //weight
   static var age = 43; //using static for
   bool enabled = false;
-
+  late var Snackbar;
   Color malecardColor = inactivecardColor;
   Color femalecardColor = inactivecardColor;
 
@@ -45,8 +46,7 @@ class _MyAppState extends State<MyApp> {
         malecardColor = activecardColor;
         femalecardColor = inactivecardColor;
       } else {
-        malecardColor = activecardColor;
-        femalecardColor = inactivecardColor;
+        malecardColor = inactivecardColor;
       }
     } else if (gender == 2) {
       if (femalecardColor == inactivecardColor) {
@@ -63,6 +63,16 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 16, 17, 63),
         appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => about()));
+              },
+              tooltip: "About",
+            )
+          ],
           title: const Text("BMI CALCULATOR"),
           centerTitle: true,
           backgroundColor: const Color.fromARGB(243, 12, 10, 53),
@@ -181,7 +191,7 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   Slider(
-                    divisions: 500,
+                    divisions: 250,
                     value: rating,
                     label: rating.round().toString(),
 
@@ -192,7 +202,7 @@ class _MyAppState extends State<MyApp> {
                     // semanticFormatterCallback: (double Value) {
                     //   return '${Value.round()} rating';
                     // },
-                    max: 500,
+                    max: 250,
 
                     // activeColor: Colors.red,
                     // inactiveColor: Colors.yellow,
@@ -316,16 +326,70 @@ class _MyAppState extends State<MyApp> {
             ),
             GestureDetector(
               onTap: () => {
+                if (malecardColor == inactivecardColor &&
+                    femalecardColor == inactivecardColor)
+                  {
+                    Snackbar = SnackBar(
+                      content: Text("Choose the Gender"),
+                      duration: Duration(seconds: 5),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: (() {}),
+                      ),
+                    ),
+                    ScaffoldMessenger.of(context).showSnackBar(Snackbar),
+                  }
                 // calculator,
-                calc = calculator(height: hello, weight: _weight),
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => show(
-                              bmiresult: calc.calculateBMI(),
-                              result: calc.getresult(),
-                              interpre: calc.interpretation(),
-                            ))),
+                else if (_weight == 0)
+                  {
+                    Snackbar = SnackBar(
+                      content: Text("Weight can't be null"),
+                      duration: Duration(seconds: 5),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: (() {}),
+                      ),
+                    ),
+                    ScaffoldMessenger.of(context).showSnackBar(Snackbar),
+                  }
+                else if (hello == 0)
+                  {
+                    Snackbar = SnackBar(
+                      content: Text("Height can't be null"),
+                      duration: Duration(seconds: 5),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: (() {}),
+                      ),
+                    ),
+                    ScaffoldMessenger.of(context).showSnackBar(Snackbar),
+                  }
+                else if (age == 0)
+                  {
+                    Snackbar = SnackBar(
+                      content: Text("Age can't be null"),
+                      duration: Duration(seconds: 5),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        onPressed: (() {}),
+                      ),
+                    ),
+                    ScaffoldMessenger.of(context).showSnackBar(Snackbar),
+                  }
+                else
+                  {
+                    calc = calculator(height: hello, weight: _weight),
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => show(
+                                  bmiresult: calc.calculateBMI(),
+                                  result: calc.getresult(
+                                      double.parse(calc.calculateBMI())),
+                                  interpre: calc.interpretation(
+                                      double.parse(calc.calculateBMI())),
+                                ))),
+                  }
               },
               child: Container(
                 width: 290.0,
@@ -404,27 +468,27 @@ class calculator {
     return _bmi.toStringAsFixed(1); // how many decimal point -1
   }
 
-  String getresult() {
-    if (_bmi >= 25) {
-      return "Obese";
-    } else if (_bmi >= 25.0 && _bmi <= 29.9) {
-      return "OverWeight";
-    } else if (_bmi >= 18.5 && _bmi <= 24.9) {
-      return "Normal";
-    } else if (_bmi < 18.5) {
+  String getresult(bmi) {
+    if (bmi <= 18.5) {
       return "UnderWeight";
+    } else if (bmi > 18.5 && bmi <= 24.9) {
+      return "NormalWeight";
+    } else if (bmi >= 25 && bmi <= 29.9) {
+      return "OverWeight";
     } else {
-      return "";
+      return "Obesity";
     }
   }
 
-  String interpretation() {
-    if (_bmi >= 25) {
-      return "hj";
-    } else if (_bmi > 18.5) {
-      return "mhv";
+  String interpretation(bmi) {
+    if (bmi <= 18.5) {
+      return "Maintaining  a healthy weight is important for your health ...";
+    } else if (bmi > 18.5 && bmi <= 24.9) {
+      return "Eating a healthy diet is the key to heart disease ...";
+    } else if (bmi >= 25 && bmi <= 29.9) {
+      return "Eat a healthy,reduced-calorie diet and exercise regularly...";
     } else {
-      return "bsdj";
+      return "Have a healthy eating behaviors, regular physical activities ...";
     }
   }
 }
